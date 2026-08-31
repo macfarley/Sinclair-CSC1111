@@ -14,11 +14,21 @@ using namespace std;
 // main() is the starting point of every C++ program.
 // The program begins executing here when you run it.
 int main() {
-    // TODO: declare variables here (int, double, string, char, bool, etc.)
+    // Declare variables
+    
+    string parkName = "Anatomy Park";
+    string parkLocation = "Inside the human body";
 
-    // TODO: assign or update variable values here
+    string attraction1 = "Spleen Mountain";
+    string attraction2 = "Pirates of the Pancreas";
+    string attraction3 = "the Bone Train";
 
-    // TODO: print variables out with cout
+    double ticketPrice = 99.95; // Example ticket price in dollars
+    // Print variables out with cout
+    cout << "Welcome...to " << parkName << "." << endl << endl;
+    cout << "Our park has 3 family-friendly attractions for you to enjoy: " << attraction1 << ", " << attraction2 << ", and " << attraction3 << "." <<endl << endl;
+
+    cout << "All for the low introductory admission price of $" << ticketPrice << "! Book your trip today." << endl;
 
     // return 0; tells the program to end successfully.
     // In C++, 0 usually means the program ran without errors.
