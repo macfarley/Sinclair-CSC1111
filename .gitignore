@@ -1,0 +1,48 @@
+# ---- Visual Studio 2022 ----
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.VC.opendb
+
+# Build output
+[Dd]ebug/
+[Rr]elease/
+[Xx]64/
+[Xx]86/
+[Bb]in/
+[Oo]bj/
+out/
+
+# Visual Studio cache/options
+.vscode/ipch/
+ipch/
+*.aps
+*.pch
+*.ipch
+*.tlog
+*.log
+
+# Precompiled headers / compiled object files / binaries
+*.obj
+*.o
+*.exe
+*.out
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.a
+*.so
+*.dylib
+
+# Extensionless compiled binaries (g++ default output, e.g. `g++ foo.cpp -o foo`)
+Activities/*
+!Activities/*.*
+
+# ---- macOS/Linux editor cruft ----
+.DS_Store
+*~
