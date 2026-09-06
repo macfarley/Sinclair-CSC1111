@@ -33,10 +33,25 @@ g++ -std=c++17 path/to/file.cpp -o path/to/file
 
 ## Structure
 
-- `Activities/` — in-class activities, exercises, and notes.
+- `Activities/` — in-class activities and learning-friendly versions such as `*-notes.cpp`.
+- `submissions/` — public-facing files intended for grading, such as `*-credit.cpp`.
+- `notes/` — local-only learning notes, scratch work, and workflow drafts.
+
+## Versioning and Submission Workflow
+
+This project follows a two-layer workflow:
+
+1. `Activities/` holds the learning-oriented version of each assignment.
+   - Example: `HelloClass-notes.cpp`
+2. `submissions/` holds the clean, public-facing version for grading.
+   - Example: `HelloClass-credit.cpp`
+
+The two versions keep the same logic and output, but the notes version is intentionally more explanatory and the credit version is streamlined for submission.
+
+This release keeps the `notes/` directory local-only and excludes it from Git so personal study notes and workflow drafts are not published to the repository.
 
 ## Notes
 
 Build artifacts, binaries, and Visual Studio's per-user/project cruft
 (`.vs/`, `bin/`, `obj/`, `*.exe`, etc.) are excluded via `.gitignore` — only
-source files and notes should be committed.
+source files and release-ready submission materials should be committed.

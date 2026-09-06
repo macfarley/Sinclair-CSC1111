@@ -46,3 +46,10 @@ Activities/*
 # ---- macOS/Linux editor cruft ----
 .DS_Store
 *~
+
+# Local learning notes and draft materials
+notes/
+
+# Keep versioned submission copies in the repo, but keep personal notes local.
+# This project uses a notes/ folder for learning drafts and a submissions/
+# folder for public-facing, grading-ready work.
