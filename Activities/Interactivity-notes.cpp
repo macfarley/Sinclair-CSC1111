@@ -8,11 +8,12 @@
 
 #include<iostream>
 #include<string>
+#include<iomanip>
 using namespace std;
 int main() {
 // Declare storage for the name and the numeric input.
 string userName;
-int userNum, squaredNum;
+double userNum, squaredNum;
 
 
 
@@ -64,9 +65,8 @@ Please enter your full name: (input: Mac McCoy)
 Thank you, Mac McCoy. The square of your number is: 16
 */
 /* Reflection Log:
-While debugging this lab, the first bug encountered was at line 19 in the output statement that prints the thank-you message. The compiler reported a missing terminating quote because the string literal was split across two lines and wrapped awkwardly, which caused the program to fail before runtime.
-The fix was to break the cout statement into separate lines without leaving the string open, so the text reads as one complete output message and avoids mistakes from line wrapping, extra quotation marks, and confusing spacing.
-The next bug was the input format: using cin to read the full name only captured the first word, so the program needed getline(cin, userName) to read the entire string, including spaces.
-The final bug was the calculation order: the square had to be calculated before it was used in the cout statement, because a variable cannot be displayed correctly before it has been assigned a value.
-This showed that debugging a program usually happens in stages: fix syntax first, then input handling, then logic order, and only then can the final output be trusted.
+The first issue I found was not a stray quote mark after all; the real problem was that the numeric variables were declared as integers, which caused the square calculation to lose the decimal or behave incorrectly when the program was expected to handle a number with decimal-style arithmetic. Once the variables were changed to double, the program handled the math correctly.
+The next bug was input handling: using cin to read the full name only captured the first word, so the program needed getline(cin, userName) to read the entire string, including spaces. Because cin leaves a newline character in the input buffer, cin.ignore() was used before the getline() call.
+The final logic bug was the calculation order: the square had to be calculated before it was used in the cout statement, because a variable cannot be displayed correctly before it has been assigned a value.
+This showed that debugging a program usually happens in stages: fix the data types, then input handling, then logic order, and only then can the final output be trusted.
 */
