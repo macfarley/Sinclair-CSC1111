@@ -1,6 +1,7 @@
-// Template-notes.cpp
-// This is the notes-style boilerplate starter for a C++ assignment.
-// It is meant to be easy to reuse and explain while still being executable.
+// Student Name
+// Date: YYYY-MM-DD
+// Program Name: Assignment Template
+// Program Description: This program demonstrates the standard starter format for a C++ assignment.
 
 #include <iostream>
 using namespace std;
