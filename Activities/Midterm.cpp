@@ -14,8 +14,6 @@ int main() {
     // translate them to zero-based array indexes before using prompt arrays.
     const int languageCount = 4;
     const int currencyCount = 5;
-
-    // ------------------------------------------------------------------
     // The language-selection menu is the only prompt shown in all languages.
     string welcomePrompt[languageCount] = {
         "1. English — Welcome to the Exchange Kiosk.",
@@ -23,8 +21,15 @@ int main() {
         "3. Arabiya (Romanized) — Marhaban! Ahlan wa sahlan.",
         "4. Nihongo (Romaji) — Konnichiwa! Yōkoso."
     };
+    // Header above the language menu. Shown in every language because no language is chosen yet.
+    string languageHeader[languageCount] = {
+        "Please select your preferred language (English is the default).",
+        "Bitte wählen Sie Ihre Sprache (Standard ist Englisch).",
+        "Min fadlak, ikhtar lughatak (al-inglizyya hiya al-iftiradiyya).",
+        "Gengo o erande kudasai (Eigo ga shoki settei desu)."
+    };
 
-    // Localized prompts. Index 0 is English, 1 German, 2 romanized Arabic, and 3 romaji Japanese.
+    // Localized prompts stored as variables. Index 0 is English, 1 German, 2 romanized Arabic, and 3 romaji Japanese.
     string currencyPrompt[languageCount] = {
         "Please choose your desired currency:",
         "Bitte wählen Sie die gewünschte Währung:",
@@ -140,12 +145,12 @@ int main() {
         "Sayonara!"
     };
 
-    // Currency symbols match the planned currency order: USD, GBP, EUR, JPY, and AED.
+    // Currency symbols match the planned currency order: USD, GBP, EUR, JPY, and AED.  For ease of display, the symbols appear after the amount (European style) in some cases.
     string currencySymbol[currencyCount] = {
         "$", "£", "€", "¥", "AED"
     };
     string currencyName[currencyCount] = {
-        "1. US Dollar", "2. British Pound", "3. Euro", "4. Japanese Yen", "5. United Arab Emirates Dirham"
+        "1. US Dollar ($)", "2. British Pound (£)", "3. Euro (€)", "4. Japanese Yen (¥)", "5. United Arab Emirates Dirham (AED)"
     };
 
     // Reference tables. Index order matches the currency menu: USD, GBP, EUR, JPY, AED.
@@ -176,8 +181,6 @@ int main() {
     double feeTierPercent[feeTierCount] = {
         6.0, 5.0, 4.0, 3.0, 2.0, 1.5
     };
-
-
     // User input and selection variables.
     int languageChoice = 0;
     int inputCurrencyChoice = 0;
@@ -197,10 +200,15 @@ int main() {
     double exchangeFeeAmount = 0.0;
     double outputAmount = 0.0;
 
-    // Step A: Repeat the kiosk transaction until the user chooses to exit.
+    //Main Loop Starts Here
+    // Step A: Repeat the kiosk transaction until the user chooses to exit clean (Ctrl+C still works to nope out).
     while (kioskRunning) {
+    
     // Step B: Display the multilingual welcome menu and get the language choice.
-    cout << "Welcome to the Currency Converter Kiosk! English is the default, please select your preferred language." << endl;
+    for (int i = 0; i < languageCount; i++) {
+        cout << languageHeader[i] << endl;
+    }
+    cout << endl;
     //this should show all options
     for (int i = 0; i < languageCount; i++) {
         cout << welcomePrompt[i] << endl;
@@ -212,6 +220,7 @@ int main() {
         languageChoice = 0;
     }
     cin.ignore(10000, '\n'); // Clear the rest of the line.
+    cout << endl;
     //map the choice to a valid index
     if(languageChoice < 1 || languageChoice > languageCount) {
         languageChoice = 0; // Default to English if the choice is invalid.
@@ -219,14 +228,18 @@ int main() {
         languageChoice = languageChoice - 1; 
         //adjust to proper index
     }
+    
     //from this point on all prompts will appear in the chosen language
+    
     // Step C: Display the currency menu and get the input and output currencies.
     // Step D: Repeat only this step until both choices are 1-5 and the two currencies differ.
     do {
         currencyChoicesValid = true;
+        cout << currencyPrompt[languageChoice] << endl;
         for (int i = 0; i < currencyCount; i++) {
             cout << currencyName[i] << endl;
         }
+        // what they have (input currency)
         cout << inputCurrencyPrompt[languageChoice] << endl;
         cin >> inputCurrencyChoice;
         if (cin.fail()) {
@@ -235,9 +248,9 @@ int main() {
             inputCurrencyChoice = 0;
         }
         cin.ignore(10000, '\n'); // Clear the rest of the line.
+        cout << endl;
         inputCurrencyChoice = inputCurrencyChoice - 1; //adjust to proper index
-
-        // what they have
+        // what they want (output currency)
         cout << outputCurrencyPrompt[languageChoice] << endl;
         cin >> outputCurrencyChoice;
         if (cin.fail()) {
@@ -246,8 +259,9 @@ int main() {
             outputCurrencyChoice = 0;
         }
         cin.ignore(10000, '\n');
+        cout << endl;
         outputCurrencyChoice = outputCurrencyChoice - 1; //adjust to proper index
-
+        // validate the currency choices
         if (inputCurrencyChoice < 0 || inputCurrencyChoice >= currencyCount ||
             outputCurrencyChoice < 0 || outputCurrencyChoice >= currencyCount) {
             cout << invalidCurrencyError[languageChoice] << endl;
@@ -266,6 +280,7 @@ int main() {
     cout << confirmCurrencyChoices[languageChoice] << endl;
     getline(cin, answerLine);
     if (cin.eof() && answerLine == "") return 0;
+    cout << endl;
     confirmCurrency = answerLine.empty() ? 'N' : answerLine[0];
     switch (confirmCurrency) {
         case 'Y':
@@ -286,6 +301,7 @@ int main() {
             amountEntry = 0.0;
         }
         cin.ignore(10000, '\n'); // Clear the rest of the line.
+        cout << endl;
 
         // Convert the input amount to EUR (unless the input currency is EUR).
         if (inputCurrencyChoice == 2) {
@@ -299,6 +315,7 @@ int main() {
             cout << amountTooLow[languageChoice] << currencySymbol[2] << minAmountEUR << endl;
         }
     } while (amountInEUR < minAmountEUR);
+    
     // Step H: Select a fee tier using the EUR amount and the feeTierThreshold + feeTierPercent tables.
     // Thresholds ascend, so every tier the amount reaches overwrites the last; the highest one reached wins.
     for (int i = 0; i < feeTierCount; i++) {
@@ -306,6 +323,7 @@ int main() {
             exchangeFeePercent = feeTierPercent[i];
         }
     }
+    
     // Step I: Calculate the fee in EUR, subtract it, then convert to the output currency (unless it is EUR).
     exchangeFeeAmount = amountInEUR * (exchangeFeePercent / 100);
     if (outputCurrencyChoice == 2) {
@@ -313,7 +331,8 @@ int main() {
     } else {
         outputAmount = (amountInEUR - exchangeFeeAmount) * rateEURToOutput[outputCurrencyChoice];
     }
-    // The kiosk cannot dispense sub-denomination currency: round to the nearest 5 yen or 0.05 of any other currency.
+    //Step I-part 2
+    // For real-world travel simplicity kiosk cannot dispense sub-denomination coins: round to the nearest 5 yen or 0.05 of any other currency.
     switch (outputCurrencyChoice) {
         case 3: // JPY
             outputAmount = round(outputAmount / 5.0) * 5.0;
@@ -335,11 +354,13 @@ int main() {
     cout << totalOutput[languageChoice] << currencySymbol[outputCurrencyChoice]
          << setprecision(outputCurrencyChoice == 3 ? 0 : 2) << outputAmount << endl;
     cout << endl; 
+    
     // Step K: Confirm the exchange. Anything but Y/y cancels and restarts at the language menu (Step B).
     // A blank Enter also confirms, as the prompt says.
     cout << confirmPrompt[languageChoice];
     getline(cin, answerLine);
     if (cin.eof() && answerLine == "") return 0;
+    cout << endl;
     exchangeConfirmation = answerLine.empty() ? 'Y' : answerLine[0];
     switch (exchangeConfirmation) {
         case 'Y':
@@ -353,9 +374,11 @@ int main() {
     // Step L: Display the localized success and thank-you messages.
     cout << successPrompt[languageChoice] << endl;
     cout << thankYouPrompt[languageChoice] << endl;
+    
     // Step M: Ask whether to start another exchange; anything but Y/y exits the loop.
     cout << startOverPrompt[languageChoice];
     getline(cin, answerLine);
+    cout << endl;
     restartChoice = answerLine.empty() ? 'N' : answerLine[0];
     switch (restartChoice) {
         case 'Y':
