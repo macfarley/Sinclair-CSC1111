@@ -24,12 +24,12 @@ int main() {
     int movieChoice = 0;
     string movieChoiceTitle;
     string movieChoiceRating;
-    int viewerAge;
+    double viewerAge = 0;
     char parentPresent = 'N';
 
     // Display a numbered menu using the movie-name and movie-rating variables.
     // Include clear instructions so the user knows which number to enter.
-    cout << "Welcome to the cinema!" << endl;
+    cout << "Welcome to the cinema!" << endl << endl;
     cout << "Now Playing the following movies:" << endl;
     cout << "Cinema 1: " << movie1Name << " (" << movie1Rating << ")" << endl;
     cout << "Cinema 2: " << movie2Name << " (" << movie2Rating << ")" << endl;
@@ -62,8 +62,10 @@ int main() {
     // Ask for the viewer's age and store it.
     cout << "This movie has a rating of " << movieChoiceRating << "." << endl;
     
-    cout << "Please enter your age: ";
-    cin >> viewerAge;
+    if (movieChoiceRating != "G") {
+        cout << "Please enter your age: ";
+        cin >> viewerAge;
+    }
 
     
     // Use the selected movie's rating to decide whether the viewer may enter.
@@ -76,14 +78,25 @@ int main() {
     // Viewers old enough for PG-13 or R do not need to answer this question.
     if ((movieChoiceRating == "PG-13" && viewerAge < 13) ||
         (movieChoiceRating == "R" && viewerAge < 17)) {
-        cout << "Are you accompanied by a parent or guardian? (Y/N): ";
-        cin >> parentPresent;
+        // new keyword: do-while loop to ensure valid parent response
+            do {
+            cout << "Are you accompanied by a parent or guardian? (Y/N): ";
+            cin >> parentPresent;
+
+            if (parentPresent != 'Y' && parentPresent != 'y' &&
+                parentPresent != 'N' && parentPresent != 'n') {
+                cout << "Invalid response. Please enter Y or N." << endl;
+            }
+        } while (parentPresent != 'Y' && parentPresent != 'y' &&
+                 parentPresent != 'N' && parentPresent != 'n');
     }
 
     // First determine which movie was selected. Then apply that movie's rule.
     // Make sure every pass/fail path produces an understandable message.
     cout << "You selected " << movieChoiceTitle << " which has a rating of " << movieChoiceRating << "." << endl;
-    cout << "You are " << viewerAge << " years old and " << (parentPresent == 'Y' || parentPresent == 'y' ? "accompanied by a parent." : "not accompanied by a parent.") << endl;
+    if (movieChoiceRating != "G") {
+        cout << "You are " << viewerAge << " years old and " << (parentPresent == 'Y' || parentPresent == 'y' ? "accompanied by a parent." : "not accompanied by a parent.") << endl;
+    }
 
     if (movieChoiceRating == "G") {
         cout << "This movie is suitable for all ages, enjoy." << endl;
@@ -111,7 +124,7 @@ int main() {
     // - Do not forget to test both outcomes of every condition.
     //
     // Test-data table to create separately for submission:
-    // Rating | User age | Parent present? | Expected result
+    // Rating | User age | Parent present?  | Expected result
     // G      | 5        | N                | Pass
     // PG-13  | 12       | N                | Fail
     // PG-13  | 10       | Y                | Pass
